@@ -1,0 +1,36 @@
+version: '3.7'
+
+#Docker Networks
+networks:
+  yii-network:
+    name: yii-network
+    driver: bridge
+
+services:
+  dbyii:
+    image: mariadb:10.5-bionic
+    container_name: yiidb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yii
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "9906:3306"
+    volumes: 
+      -  ./db:/var/lib/mysql
+    networks:
+      - yii-network
+  webyii:
+    image: stefanos87/yii2-php-7.4-apache-xdebug:latest
+    container_name: yiiweb
+    depends_on:
+      - dbyii
+    ports:
+      - "20080:80"
+    volumes:
+      - ./html:/var/www/html/basic
+    stdin_open: true
+    tty: true
+    networks:
+      - yii-network
