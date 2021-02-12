@@ -34,6 +34,7 @@ RUN apt-get update && \
             unzip \
             libcurl4-openssl-dev \
             libssl-dev \
+            libldap2-dev \
         --no-install-recommends && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -63,7 +64,9 @@ RUN if [ $X_LEGACY_GD_LIB = 1 ]; then \
         opcache \
         pdo_mysql \
         pdo_pgsql
-
+        
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
+RUN docker-php-ext-install ldap
 
 #Installing composer
 RUN curl -sS https://getcomposer.org/installer | php
