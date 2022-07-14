@@ -14,6 +14,7 @@ RUN apt-get update && \
             g++ \
             git \
             curl \
+            libgmp-dev \
             imagemagick \
             libcurl3-dev \
             libicu-dev \
@@ -53,6 +54,7 @@ RUN if [ $X_LEGACY_GD_LIB = 1 ]; then \
     docker-php-ext-configure bcmath && \
     docker-php-ext-install \
         soap \
+        gmp \
         zip \
         curl \
         bcmath \
